@@ -1,5 +1,6 @@
 *.iml
 application-read.properties
 application-write.properties
-*/.idea/**
-*/target/**
+.idea/**
+target/**
+.DS_Store
