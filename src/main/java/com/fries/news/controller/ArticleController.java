@@ -107,7 +107,6 @@ public class ArticleController {
         return -1;
     }
 
-
     //TODO: THIS NEEDS TO BE RESTRICTED IN PRODUCTION
     @RequestMapping("/delete")
     public Integer deleteArticle(@RequestParam("id") Integer articleId) {
