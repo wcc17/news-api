@@ -28,8 +28,8 @@ public class ValidDomainFilter extends OncePerRequestFilter {
 
     private boolean isValidDomain(String ipAddress, int port){
         //TODO: need to log this properly without System.out.println
-        System.out.println(ipAddress);
-        System.out.println(port);
+//        System.out.println(ipAddress);
+//        System.out.println(port);
 
         //TODO: will need to check for ip of digital ocean server with front-end on it
 //        if(!ipAddress.equals("www.google.com")) {

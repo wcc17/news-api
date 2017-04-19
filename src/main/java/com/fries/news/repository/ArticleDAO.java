@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface ArticleDAO {
 
-    public List<Article> getAllArticles();
-
     public List<Article> getTopArticles(Integer numberToRetrieve);
 
     public Long getArticleCount();
