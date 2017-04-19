@@ -6,7 +6,6 @@ import java.util.List;
 
 public interface ArticleService {
 
-    public List<Article> getAllArticles();
     public List<Article> getTopArticles(Integer numberToRetrieve);
     public Long getArticleCount();
     public List<Article> getArticlePage(Integer pageNumber, Integer pageSize);

@@ -17,11 +17,6 @@ public class ArticleServiceImpl implements ArticleService {
     ArticleDAO articleDAO;
 
     @Override
-    public List<Article> getAllArticles() {
-        return articleDAO.getAllArticles();
-    }
-
-    @Override
     public List<Article> getTopArticles(Integer numberToRetrieve) {
         return articleDAO.getTopArticles(numberToRetrieve);
     }

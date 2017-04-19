@@ -25,14 +25,6 @@ public class ArticleDAOImpl implements ArticleDAO {
     private EntityManager entityManager;
 
     @Override
-    public List<Article> getAllArticles() {
-        Session session = sessionFactory.getCurrentSession();
-
-        Criteria criteria = session.createCriteria(Article.class);
-        return criteria.list();
-    }
-
-    @Override
     public List<Article> getTopArticles(Integer numberToRetrieve) {
         Session session = sessionFactory.getCurrentSession();
 

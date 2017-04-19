@@ -14,44 +14,40 @@ import java.util.List;
 @RestController
 public class ArticleController {
 
+    public static final String BASE_PATH = "/article";
+
     @Autowired
     ArticleService articleService;
 
 
-    @RequestMapping("/articles")
+    @RequestMapping(BASE_PATH)
     public List<Article> pageOfArticles(@RequestParam("page") Integer pageNumber,
                                         @RequestParam("size") Integer pageSize) {
+        //http://localhost:8080/article?page=0&size=10
         return articleService.getArticlePage(pageNumber, pageSize);
     }
 
-    @RequestMapping("/articleCount")
+    @RequestMapping(BASE_PATH + "/count")
     public Long articleCount() {
+        //http://localhost:8080/article/count
         return articleService.getArticleCount();
     }
 
-    @RequestMapping("/topArticles")
+    @RequestMapping(BASE_PATH + "/top")
     public List<Article> topArticles(@RequestParam("number") Integer numberToRetrieve) {
+        //http://localhost:8080/article/top?number=3
         return articleService.getTopArticles(numberToRetrieve);
     }
 
     //TODO: THIS NEEDS TO BE RESTRICTED IN PRODUCTION
-    @RequestMapping("/create")
+    @RequestMapping(BASE_PATH + "/create")
     public Integer createArticle(@RequestParam("name") String name,
                                  @RequestParam("title") String title,
                                  @RequestParam("sub") String subTitle,
                                  @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate publishDate,
                                  @RequestParam("content") String content) {
-        //http://localhost:8080/create?name=new_article&title=new_title&sub=new_sub&date=2017-03-18&content=thisistestcontent
-
-        if(name != null
-                && !name.isEmpty()
-                && title != null
-                && !title.isEmpty()
-                && subTitle != null
-                && !subTitle.isEmpty()
-                && publishDate != null
-                && content != null
-                && !content.isEmpty()) {
+        //http://localhost:8080/article/create?name=new_article&title=new_title&sub=new_sub&date=2017-03-18&content=thisistestcontent
+        try {
             Article article = new Article();
             article.setName(name);
             article.setTitle(title);
@@ -61,32 +57,22 @@ public class ArticleController {
 
             articleService.saveArticle(article);
             return article.getId();
+        } catch (RuntimeException e) {
+            //TODO: need to log the exception without System.out.println(). Can't remember why Steven said it slows things down
+            return -1;
         }
-
-        //return an invalid article Id
-        return -1;
     }
 
     //TODO: THIS NEEDS TO BE RESTRICTED IN PRODUCTION
-    @RequestMapping("/update")
+    @RequestMapping(BASE_PATH + "/update")
     public Integer updateArticle(@RequestParam("id") Integer id,
                                  @RequestParam("name") String name,
                                  @RequestParam("title") String title,
                                  @RequestParam("sub") String subTitle,
                                  @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate publishDate,
                                  @RequestParam("content") String content) {
-        //http://localhost:8080/update?id=31&name=new_article&title=new_title&sub=new_sub&date=2017-03-18&content=thisistestcontent
-        if(id != null
-                && id >= 0
-                && name != null
-                && !name.isEmpty()
-                && title != null
-                && !title.isEmpty()
-                && subTitle != null
-                && !subTitle.isEmpty()
-                && publishDate != null
-                && content != null
-                && !content.isEmpty()) {
+        //http://localhost:8080/article/update?id=23&name=new_article&title=new_title&sub=new_sub&date=2017-03-18&content=thisistestcontent
+        try {
             Article article = articleService.getArticleById(id);
             article.setName(name);
             article.setTitle(title);
@@ -94,22 +80,18 @@ public class ArticleController {
             article.setPublishDate(publishDate);
             article.setContent(content);
 
-            try {
-                articleService.saveArticle(article);
-            } catch (RuntimeException e) {
-                //TODO: need to log the exception without System.out.println(). Can't remember why Steven said it slows things down
-                return -1;
-            }
-
+            articleService.saveArticle(article);
             return article.getId();
+        } catch (RuntimeException e) {
+            //TODO: need to log the exception without System.out.println(). Can't remember why Steven said it slows things down
+            return -1;
         }
-
-        return -1;
     }
 
     //TODO: THIS NEEDS TO BE RESTRICTED IN PRODUCTION
-    @RequestMapping("/delete")
+    @RequestMapping(BASE_PATH + "/delete")
     public Integer deleteArticle(@RequestParam("id") Integer articleId) {
+        //http://localhost:8080/article/delete?id=23
         try {
             articleService.deleteArticle(articleId);
         } catch (RuntimeException e) {
@@ -120,19 +102,15 @@ public class ArticleController {
         return 0;
     }
 
-    @RequestMapping(value="/article", params="id")
+    @RequestMapping(value=BASE_PATH, params="id")
     public Article getArticleById(@RequestParam("id") Integer articleId) {
+        //http://localhost:8080/article?id=16
         return articleService.getArticleById(articleId);
     }
 
-    @RequestMapping(value="/article", params="name")
+    @RequestMapping(value=BASE_PATH, params="name")
     public Article getArticleByName(@RequestParam("name") String articleName) {
+        //http://localhost:8080/article?name=***REMOVED***
         return articleService.getArticleByName(articleName);
     }
-
-    @RequestMapping("/allArticles")
-    public List<Article> allArticles() {
-        return articleService.getAllArticles();
-    }
-
 }
