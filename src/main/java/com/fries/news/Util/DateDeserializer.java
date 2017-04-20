@@ -1,29 +1,22 @@
 package com.fries.news.Util;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.Date;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
-public class DateDeserializer extends JsonDeserializer<Date> {
+public class DateDeserializer extends JsonDeserializer<LocalDate> {
     @Override
-    public Date deserialize(JsonParser jp, DeserializationContext ctxt)
-            throws IOException, JsonProcessingException {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        String date = jp.getText();
-
+    public LocalDate deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
         try {
-            Date parsedDate = format.parse(date);
-//            return parsedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            return parsedDate;
-        } catch (ParseException e) {
-            //TODO: THIS NEEDS TO BE HANDLED THO
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return LocalDate.parse(jp.getText(), formatter);
+        } catch (DateTimeParseException e) {
+            //TODO: REVISIT THIS RETURN NULL. also get rid of System.out.print
             System.out.println(e);
             return null;
         }

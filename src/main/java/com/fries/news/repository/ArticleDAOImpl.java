@@ -60,9 +60,16 @@ public class ArticleDAOImpl implements ArticleDAO {
     }
 
     @Override
-    public void saveArticle(Article article) {
+    public Integer saveArticle(Article article) {
         Session session = sessionFactory.getCurrentSession();
-        session.saveOrUpdate(article);
+        return (Integer) session.save(article);
+    }
+
+    @Override
+    public Integer updateArticle(Article article) {
+        Session session = sessionFactory.getCurrentSession();
+        session.update(article);
+        return article.getId();
     }
 
     @Override

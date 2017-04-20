@@ -4,9 +4,12 @@ import com.fries.news.domain.Article;
 import com.fries.news.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -40,65 +43,46 @@ public class ArticleController {
 
     //TODO: THIS NEEDS TO BE RESTRICTED IN PRODUCTION
     @RequestMapping(method = RequestMethod.POST, value = BASE_PATH + "/create")
-//    public Integer createArticle(@RequestParam("name") String name,
-//                                 @RequestParam("title") String title,
-//                                 @RequestParam("sub") String subTitle,
-//                                 @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate publishDate,
-//                                 @RequestParam("content") String content) {
-    public ResponseEntity<Article> createArticle(@RequestBody Article article) {
+    public ResponseEntity<?> createArticle(@RequestBody Article article) {
         try {
-//            Article article = new Article();
-//            article.setName(name);
-//            article.setTitle(title);
-//            article.setSubTitle(subTitle);
-//            article.setPublishDate(publishDate);
-//            article.setContent(content);
+            Integer articleId = articleService.saveArticle(article);
+            URI location = ServletUriComponentsBuilder
+                    .fromPath("{id}")
+                    .buildAndExpand(articleId).toUri();
 
-            articleService.saveArticle(article);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.created(location).build();
         } catch (RuntimeException e) {
             //TODO: need to log the exception without System.out.println(). Can't remember why Steven said it slows things down
-            return ResponseEntity.badRequest().build();
+            System.out.println(e);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
 
     //TODO: THIS NEEDS TO BE RESTRICTED IN PRODUCTION
     @RequestMapping(method = RequestMethod.PUT, value = BASE_PATH + "/update")
-    public Integer updateArticle(@RequestParam("id") Integer id,
-                                 @RequestParam("name") String name,
-                                 @RequestParam("title") String title,
-                                 @RequestParam("sub") String subTitle,
-                                 @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate publishDate,
-                                 @RequestParam("content") String content) {
-        //http://localhost:8080/article/update?id=23&name=new_article&title=new_title&sub=new_sub&date=2017-03-18&content=thisistestcontent
+    public ResponseEntity<?> updateArticle(@RequestBody Article article) {
         try {
-            Article article = articleService.getArticleById(id);
-            article.setName(name);
-            article.setTitle(title);
-            article.setSubTitle(subTitle);
-            article.setPublishDate(publishDate);
-            article.setContent(content);
-
-            articleService.saveArticle(article);
-            return article.getId();
+            articleService.updateArticle(article);
+            return ResponseEntity.ok().build();
         } catch (RuntimeException e) {
             //TODO: need to log the exception without System.out.println(). Can't remember why Steven said it slows things down
-            return -1;
+            System.out.println(e);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
 
     //TODO: THIS NEEDS TO BE RESTRICTED IN PRODUCTION
     @RequestMapping(method = RequestMethod.DELETE, value = BASE_PATH + "/delete")
-    public Integer deleteArticle(@RequestParam("id") Integer articleId) {
+    public ResponseEntity<?> deleteArticle(@RequestParam("id") Integer articleId) {
         //http://localhost:8080/article/delete?id=23
         try {
             articleService.deleteArticle(articleId);
+            return ResponseEntity.ok().build();
         } catch (RuntimeException e) {
             //TODO: need to log the exception without System.out.println(). Can't remember why Steven said it slows things down
-            return - 1;
+            System.out.println(e);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-
-        return 0;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = BASE_PATH, params="id")

@@ -32,8 +32,13 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void saveArticle(Article article) {
-        articleDAO.saveArticle(article);
+    public Integer saveArticle(Article article) {
+        return articleDAO.saveArticle(article);
+    }
+
+    @Override
+    public Integer updateArticle(Article article) {
+        return articleDAO.updateArticle(article);
     }
 
     @Override
