@@ -1,5 +1,7 @@
 package com.fries.news.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fries.news.Util.DateDeserializer;
 import com.fries.news.converter.LocalDateAttributeConverter;
 
 import javax.persistence.*;
@@ -28,6 +30,7 @@ public class Article {
     @NotNull
     @Column
     @Convert(converter = LocalDateAttributeConverter.class)
+    @JsonDeserialize(using = DateDeserializer.class)
     private LocalDate publishDate;
 
     @NotNull
