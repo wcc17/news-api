@@ -29,8 +29,8 @@ public class Article {
 
     @NotNull
     @Column
-    @Convert(converter = LocalDateAttributeConverter.class)
-    @JsonDeserialize(using = DateDeserializer.class)
+    @Convert(converter = LocalDateAttributeConverter.class) //converts from db java.sql.date TO LocalDate
+    @JsonDeserialize(using = DateDeserializer.class)        //converts from requestbody date string to LocalDate
     private LocalDate publishDate;
 
     @NotNull

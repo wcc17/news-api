@@ -12,7 +12,9 @@ public interface ArticleDAO {
 
     public List<Article> getArticlePage(Integer pageNumber, Integer pageSize);
 
-    public void saveArticle(Article article);
+    public Integer saveArticle(Article article);
+
+    public Integer updateArticle(Article article);
 
     public void deleteArticle(Article article);
 

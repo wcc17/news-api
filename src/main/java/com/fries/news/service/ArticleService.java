@@ -9,7 +9,8 @@ public interface ArticleService {
     public List<Article> getTopArticles(Integer numberToRetrieve);
     public Long getArticleCount();
     public List<Article> getArticlePage(Integer pageNumber, Integer pageSize);
-    public void saveArticle(Article article);
+    public Integer saveArticle(Article article);
+    public Integer updateArticle(Article article);
     public void deleteArticle(Integer articleId);
     public Article getArticleById(Integer articleId);
     public Article getArticleByName(String articleName);
