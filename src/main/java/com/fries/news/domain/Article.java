@@ -1,7 +1,7 @@
 package com.fries.news.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fries.news.Util.DateDeserializer;
+import com.fries.news.util.DateDeserializer;
 import com.fries.news.converter.LocalDateAttributeConverter;
 
 import javax.persistence.*;
