@@ -36,8 +36,8 @@ public class ValidDomainFilter extends OncePerRequestFilter {
         //TODO: TO LIMIT WHO CAN MAKE REQUESTS TO THE API
 //        if(!ipAddress.equals("104.236.231.207")) {
 //            LOGGER.error("This is an invalid or unrecognized IP address");
-//            LOGGER.error("IP: " + ipAddress);
-//            LOGGER.error("PORT: " + port);
+//            LOGGER.error("IP: {}", ipAddress);
+//            LOGGER.error("PORT: {}", port);
 //            return false;
 //        }
 

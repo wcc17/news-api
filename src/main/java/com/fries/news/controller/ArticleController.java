@@ -1,5 +1,6 @@
 package com.fries.news.controller;
 
+import com.fries.news.annotation.AdminRestricted;
 import com.fries.news.domain.Article;
 import com.fries.news.service.ArticleService;
 import org.slf4j.Logger;
@@ -58,7 +59,7 @@ public class ArticleController {
         }
     }
 
-    //TODO: THIS NEEDS TO BE RESTRICTED IN PRODUCTION
+    @AdminRestricted
     @RequestMapping(method = RequestMethod.POST, value = BASE_PATH + "/create")
     public ResponseEntity<?> createArticle(@RequestBody Article article) {
         try {
@@ -74,7 +75,7 @@ public class ArticleController {
         }
     }
 
-    //TODO: THIS NEEDS TO BE RESTRICTED IN PRODUCTION
+    @AdminRestricted
     @RequestMapping(method = RequestMethod.PUT, value = BASE_PATH + "/update")
     public ResponseEntity<?> updateArticle(@RequestBody Article article) {
         try {
@@ -86,7 +87,7 @@ public class ArticleController {
         }
     }
 
-    //TODO: THIS NEEDS TO BE RESTRICTED IN PRODUCTION
+    @AdminRestricted
     @RequestMapping(method = RequestMethod.DELETE, value = BASE_PATH + "/delete")
     public ResponseEntity<?> deleteArticle(@RequestParam("id") Integer articleId) {
         //http://localhost:8080/article/delete?id=23
